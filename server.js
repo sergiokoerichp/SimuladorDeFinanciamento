@@ -5,7 +5,11 @@ const app = express();
 const PORTA = process.env.PORT || 5000;
 
 // Middleware
-app.use(cors()); // Configuração de CORS
+app.use(cors({
+    origin: "*",
+    methods: ["GET", "POST"],
+    allowedHeaders: ["Content-Type"],
+  }));
 app.use(bodyParser.json());
 
 // Função para calcular parcelas

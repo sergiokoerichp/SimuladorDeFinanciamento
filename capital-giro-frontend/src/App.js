@@ -70,7 +70,7 @@ const App = () => {
     setErro('');
     setCarregando(true);
     try {
-      const response = await axios.post('http://localhost:5000/api/calcular', formData);
+      const response = await axios.post('https://simulador-de-financiamente-fe936a390443.herokuapp.com/api/calcular', formData);
       setParcelas(response.data.parcelas);
     } catch (error) {
       console.error('Erro ao calcular parcelas:', error);
