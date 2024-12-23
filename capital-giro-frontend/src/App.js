@@ -81,7 +81,6 @@ const App = () => {
       setCarregando(false);
     }
   };
-  
 
   const exportarCSV = () => {
     const linhas = parcelas.map((parcela) => (
@@ -170,63 +169,88 @@ const App = () => {
         {erro && <p className="text-red-500 mb-4 text-center">{erro}</p>}
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <input
-              type="number"
-              name="valorEmprestimo"
-              placeholder={t('amount')}
-              value={formData.valorEmprestimo}
-              onChange={handleChange}
-              className="p-2 border border-gray-300 rounded w-full focus:outline-orange-400"
-              required
-            />
-            <input
-              type="number"
-              name="taxaJuros"
-              placeholder={t('interestRate')}
-              value={formData.taxaJuros}
-              onChange={handleChange}
-              className="p-2 border border-gray-300 rounded w-full focus:outline-orange-400"
-              required
-            />
-            <input
-              type="number"
-              name="numeroParcelas"
-              placeholder={t('installments')}
-              value={formData.numeroParcelas}
-              onChange={handleChange}
-              className="p-2 border border-gray-300 rounded w-full focus:outline-orange-400"
-              required
-            />
-            <input
-              type="number"
-              name="mesInicio"
-              placeholder={t('startMonth')}
-              value={formData.mesInicio}
-              onChange={handleChange}
-              className="p-2 border border-gray-300 rounded w-full focus:outline-orange-400"
-              required
-            />
-            <input
-              type="number"
-              name="anoInicio"
-              placeholder={t('startYear')}
-              value={formData.anoInicio}
-              onChange={handleChange}
-              className="p-2 border border-gray-300 rounded w-full focus:outline-orange-400"
-              required
-            />
-            <input
-              type="number"
-              name="taxaCorrecao"
-              placeholder={t('correctionRate')}
-              value={formData.taxaCorrecao}
-              onChange={handleChange}
-              className="p-2 border border-gray-300 rounded w-full focus:outline-orange-400"
-            />
+            <div>
+              <label htmlFor="valorEmprestimo" className="block text-gray-700 font-medium mb-1">{t('amount')}</label>
+              <input
+                type="number"
+                id="valorEmprestimo"
+                name="valorEmprestimo"
+                placeholder={t('amount')}
+                value={formData.valorEmprestimo}
+                onChange={handleChange}
+                className="p-2 border border-gray-300 rounded w-full focus:outline-orange-400"
+                required
+              />
+            </div>
+            <div>
+              <label htmlFor="taxaJuros" className="block text-gray-700 font-medium mb-1">{t('interestRate')}</label>
+              <input
+                type="number"
+                id="taxaJuros"
+                name="taxaJuros"
+                placeholder={t('interestRate')}
+                value={formData.taxaJuros}
+                onChange={handleChange}
+                className="p-2 border border-gray-300 rounded w-full focus:outline-orange-400"
+                required
+              />
+            </div>
+            <div>
+              <label htmlFor="numeroParcelas" className="block text-gray-700 font-medium mb-1">{t('installments')}</label>
+              <input
+                type="number"
+                id="numeroParcelas"
+                name="numeroParcelas"
+                placeholder={t('installments')}
+                value={formData.numeroParcelas}
+                onChange={handleChange}
+                className="p-2 border border-gray-300 rounded w-full focus:outline-orange-400"
+                required
+              />
+            </div>
+            <div>
+              <label htmlFor="mesInicio" className="block text-gray-700 font-medium mb-1">{t('startMonth')}</label>
+              <input
+                type="number"
+                id="mesInicio"
+                name="mesInicio"
+                placeholder={t('startMonth')}
+                value={formData.mesInicio}
+                onChange={handleChange}
+                className="p-2 border border-gray-300 rounded w-full focus:outline-orange-400"
+                required
+              />
+            </div>
+            <div>
+              <label htmlFor="anoInicio" className="block text-gray-700 font-medium mb-1">{t('startYear')}</label>
+              <input
+                type="number"
+                id="anoInicio"
+                name="anoInicio"
+                placeholder={t('startYear')}
+                value={formData.anoInicio}
+                onChange={handleChange}
+                className="p-2 border border-gray-300 rounded w-full focus:outline-orange-400"
+                required
+              />
+            </div>
+            <div>
+              <label htmlFor="taxaCorrecao" className="block text-gray-700 font-medium mb-1">{t('correctionRate')}</label>
+              <input
+                type="number"
+                id="taxaCorrecao"
+                name="taxaCorrecao"
+                placeholder={t('correctionRate')}
+                value={formData.taxaCorrecao}
+                onChange={handleChange}
+                className="p-2 border border-gray-300 rounded w-full focus:outline-orange-400"
+              />
+            </div>
           </div>
           <div>
-            <label className="block text-gray-700 font-medium mb-2">{t('calculationType')}</label>
+            <label htmlFor="tipoCalculo" className="block text-gray-700 font-medium mb-2">{t('calculationType')}</label>
             <select
+              id="tipoCalculo"
               name="tipoCalculo"
               value={formData.tipoCalculo}
               onChange={handleChange}
@@ -237,7 +261,6 @@ const App = () => {
               <option value="c">{t('typeC')}</option>
               <option value="d">{t('typeD')}</option>
               <option value="e">{t('typeE')}</option>
-
             </select>
           </div>
           <button
