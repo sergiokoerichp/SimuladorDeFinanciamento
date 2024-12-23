@@ -87,13 +87,14 @@ app.post('/api/calcular', (req, res) => {
 
 const path = require('path');
 
-// Servir arquivos estáticos do build do React
-app.use(express.static(path.join(__dirname, 'capital-giro-frontend/build')));
+app.use(express.static(path.join(__dirname, 'build')));
 
-// Rota fallback para o React
+
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'capital-giro-frontend/build', 'index.html'));
+    res.sendFile(path.join(__dirname, 'build', 'index.html'));
 });
 
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+  const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => {
+    console.log(`Servidor rodando na porta ${PORT}`);
+});
