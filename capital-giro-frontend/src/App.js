@@ -27,7 +27,7 @@ const App = () => {
   const [carregando, setCarregando] = useState(false);
 
   const chartRef = useRef(null);
-  const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
+  const API_URL = process.env.REACT_APP_API_URL || 'https://simulador-de-financiamente-fe936a390443.herokuapp.com';
 
   useEffect(() => {
     return () => {
