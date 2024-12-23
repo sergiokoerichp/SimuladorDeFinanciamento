@@ -8,19 +8,19 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
-},
+  },
   "resolve": {
     "fallback": {
-        "zlib": "browserify-zlib",
-        "stream": "stream-browserify",
-        "crypto": "crypto-browserify",
-        "path": "path-browserify",
-        "util": "util",
-        "url": "url",
-        "buffer": "buffer",
-        "querystring": "querystring-es3"
+      "zlib": "browserify-zlib",
+      "stream": "stream-browserify",
+      "crypto": "crypto-browserify",
+      "path": "path-browserify",
+      "util": "util",
+      "url": "url",
+      "buffer": "buffer",
+      "querystring": "querystring-es3"
     }
-},
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
@@ -33,6 +33,7 @@
     "express": "^4.18.2",
     "path-browserify": "^1.0.1",
     "querystring-es3": "^0.2.1",
+    "react-scripts": "^5.0.1",
     "stream-browserify": "^3.0.0",
     "url": "^0.11.4",
     "util": "^0.12.5"
@@ -41,6 +42,6 @@
     "nodemon": "^2.0.22"
   },
   "engines": {
-  "node": ">=16.0.0"
-}
+    "node": ">=16.0.0"
+  }
 }

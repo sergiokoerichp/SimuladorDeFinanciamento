@@ -1,4 +1,3 @@
-// app.js (Front-End Completo com Tradução e Gráficos Comparativos)
 import React, { useState, useRef, useEffect } from 'react';
 import axios from 'axios';
 import 'tailwindcss/tailwind.css';
