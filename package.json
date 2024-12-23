@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
   "start": "node server.js",
-  "heroku-postbuild": "cd capital-giro-frontend && npm install && npm run build && mv build ../build",
+  "heroku-postbuild": "cd capital-giro-frontend && npm install --legacy-peer-deps && npm run build && mv build ../build",
   "test": "react-scripts test",
   "eject": "react-scripts eject"
   },
