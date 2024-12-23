@@ -27,6 +27,7 @@ const App = () => {
   const [carregando, setCarregando] = useState(false);
 
   const chartRef = useRef(null);
+  const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
 
   useEffect(() => {
     return () => {
@@ -71,8 +72,8 @@ const App = () => {
     setCarregando(true);
     try {
       console.log('Dados enviados:', formData);
-      const response = await axios.post('https://simulador-de-financiamente-fe936a390443.herokuapp.com/api/calcular', formData);
-      console.log('Resposta da API:', response.data);
+      const response = await axios.post(`${API_URL}/api/calcular`, formData);
+      console.log('Resposta recebida:', response.data);
       setParcelas(response.data.parcelas);
     } catch (error) {
       console.error('Erro ao calcular parcelas:', error);
