@@ -71,12 +71,12 @@ const App = () => {
     setErro('');
     setCarregando(true);
     try {
-      console.log('Dados enviados:', formData);
+      console.log('📤 Enviando dados para API:', formData);
       const response = await axios.post(`${API_URL}/api/calcular`, formData);
-      console.log('Resposta recebida:', response.data);
+      console.log('📥 Resposta da API:', response.data);
       setParcelas(response.data.parcelas);
     } catch (error) {
-      console.error('Erro ao calcular parcelas:', error);
+      console.error('⚠ Erro ao calcular parcelas:', error);
       setErro(t('calculationError'));
     } finally {
       setCarregando(false);
@@ -95,18 +95,27 @@ const App = () => {
   const exportarPDF = () => {
     const doc = new jsPDF();
     doc.text(t('results'), 10, 10);
+
+    let saldoDevedor = parseFloat(formData.valorEmprestimo);
+
     doc.autoTable({
       head: [['Parcela', t('date'), t('principal'), t('interestRate'), t('correction'), t('balance'), t('total')]],
-      body: parcelas.map((parcela, index) => [
-        parcela.parcela,
-        new Date(parcela.data).toLocaleDateString(),
-        parcela.principal,
-        parcela.juros,
-        parcela.correcao,
-        index === 0 ? formData.valorEmprestimo : parcelas[index - 1].saldoDevedor - parcela.principal,
-        parcela.total,
-      ]),
+      body: parcelas.map((parcela, index) => {
+        saldoDevedor = saldoDevedor - parseFloat(parcela.principal);
+        saldoDevedor = saldoDevedor < 0 ? 0 : saldoDevedor; // Garante que o saldo nunca fique negativo
+        
+        return [
+          parcela.parcela,
+          new Date(parcela.data).toLocaleDateString(),
+          parseFloat(parcela.principal).toFixed(2),
+          parseFloat(parcela.juros).toFixed(2),
+          parseFloat(parcela.correcao).toFixed(2),
+          saldoDevedor.toFixed(2), // Exibir saldo devedor atualizado
+          parseFloat(parcela.total).toFixed(2),
+        ];
+      }),
     });
+
     doc.save('relatorio-detalhado.pdf');
   };
 
@@ -170,86 +179,33 @@ const App = () => {
         {erro && <p className="text-red-500 mb-4 text-center">{erro}</p>}
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <label htmlFor="valorEmprestimo" className="block text-gray-700 font-medium mb-1">{t('amount')}</label>
-              <input
-                type="number"
-                id="valorEmprestimo"
-                name="valorEmprestimo"
-                placeholder={t('amount')}
-                value={formData.valorEmprestimo}
-                onChange={handleChange}
-                className="p-2 border border-gray-300 rounded w-full focus:outline-orange-400"
-                required
-              />
-            </div>
-            <div>
-              <label htmlFor="taxaJuros" className="block text-gray-700 font-medium mb-1">{t('interestRate')}</label>
-              <input
-                type="number"
-                id="taxaJuros"
-                name="taxaJuros"
-                placeholder={t('interestRate')}
-                value={formData.taxaJuros}
-                onChange={handleChange}
-                className="p-2 border border-gray-300 rounded w-full focus:outline-orange-400"
-                required
-              />
-            </div>
-            <div>
-              <label htmlFor="numeroParcelas" className="block text-gray-700 font-medium mb-1">{t('installments')}</label>
-              <input
-                type="number"
-                id="numeroParcelas"
-                name="numeroParcelas"
-                placeholder={t('installments')}
-                value={formData.numeroParcelas}
-                onChange={handleChange}
-                className="p-2 border border-gray-300 rounded w-full focus:outline-orange-400"
-                required
-              />
-            </div>
-            <div>
-              <label htmlFor="mesInicio" className="block text-gray-700 font-medium mb-1">{t('startMonth')}</label>
-              <input
-                type="number"
-                id="mesInicio"
-                name="mesInicio"
-                placeholder={t('startMonth')}
-                value={formData.mesInicio}
-                onChange={handleChange}
-                className="p-2 border border-gray-300 rounded w-full focus:outline-orange-400"
-                required
-              />
-            </div>
-            <div>
-              <label htmlFor="anoInicio" className="block text-gray-700 font-medium mb-1">{t('startYear')}</label>
-              <input
-                type="number"
-                id="anoInicio"
-                name="anoInicio"
-                placeholder={t('startYear')}
-                value={formData.anoInicio}
-                onChange={handleChange}
-                className="p-2 border border-gray-300 rounded w-full focus:outline-orange-400"
-                required
-              />
-            </div>
-            <div>
-              <label htmlFor="taxaCorrecao" className="block text-gray-700 font-medium mb-1">{t('correctionRate')}</label>
-              <input
-                type="number"
-                id="taxaCorrecao"
-                name="taxaCorrecao"
-                placeholder={t('correctionRate')}
-                value={formData.taxaCorrecao}
-                onChange={handleChange}
-                className="p-2 border border-gray-300 rounded w-full focus:outline-orange-400"
-              />
-            </div>
+            {[
+              { id: 'valorEmprestimo', label: 'Valor do Empréstimo' },
+              { id: 'taxaJuros', label: 'Taxa de Juros (%)' },
+              { id: 'numeroParcelas', label: 'Número de Parcelas' },
+              { id: 'mesInicio', label: 'Mês de Concessão' },
+              { id: 'anoInicio', label: 'Ano de Concessão' },
+              { id: 'taxaCorrecao', label: 'Taxa de Correção Monetária (%)' }
+            ].map((campo) => (
+              <div key={campo.id}>
+                <label htmlFor={campo.id} className="block text-gray-700 font-medium mb-1">
+                  {campo.label}
+                </label>
+                <input
+                  type="number"
+                  id={campo.id}
+                  name={campo.id}
+                  value={formData[campo.id]}
+                  onChange={handleChange}
+                  className="p-2 border border-gray-300 rounded w-full focus:outline-orange-400"
+                  required
+                />
+              </div>
+            ))}
           </div>
+
           <div>
-            <label htmlFor="tipoCalculo" className="block text-gray-700 font-medium mb-2">{t('calculationType')}</label>
+            <label htmlFor="tipoCalculo" className="block text-gray-700 font-medium mb-2">Tipo de Cálculo</label>
             <select
               id="tipoCalculo"
               name="tipoCalculo"
@@ -257,19 +213,20 @@ const App = () => {
               onChange={handleChange}
               className="p-2 border border-gray-300 rounded w-full"
             >
-              <option value="a">{t('typeA')}</option>
-              <option value="b">{t('typeB')}</option>
-              <option value="c">{t('typeC')}</option>
-              <option value="d">{t('typeD')}</option>
-              <option value="e">{t('typeE')}</option>
+              <option value="a">Pré-fixado com juros sobre saldo devedor</option>
+              <option value="b">Pré-fixado com juros na parcela</option>
+              <option value="c">Pós-fixado com juros e correção no saldo devedor</option>
+              <option value="d">Pós-fixado com juros e correção na parcela</option>
+              <option value="e">Pós-fixado com juros no saldo devedor e correção na parcela</option>
             </select>
           </div>
+
           <button
             type="submit"
             className={`w-full py-2 px-4 rounded ${carregando ? 'bg-gray-400 text-gray-700 cursor-not-allowed' : 'bg-orange-500 text-white hover:bg-orange-700'}`}
             disabled={carregando}
           >
-            {carregando ? t('calculating') : t('calculate')}
+            {carregando ? 'Calculando...' : 'Calcular'}
           </button>
         </form>
 
