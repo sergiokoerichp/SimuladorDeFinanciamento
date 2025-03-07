@@ -41,14 +41,14 @@ O **Simulador de Financiamento** é uma aplicação web que permite calcular par
 
 ### Clonar o Repositório
 ```bash
-git clone https://github.com/seu-usuario/simulador-financiamento.git
+git clone https://github.com/sergiokoerichp/simulador-financiamento.git
 cd simulador-financiamento
 ```
 
 ### Configurar Variáveis de Ambiente
 Crie um arquivo `.env` na raiz do projeto e configure a URL da API:
 ```env
-REACT_APP_API_URL=https://simulador-de-financiamente-fe936a390443.herokuapp.com
+REACT_APP_API_URL=https://lab-sergio-816459c5c0a0.herokuapp.com/
 ```
 
 ### Instalar Dependências
@@ -68,7 +68,7 @@ npm start
 
 ## Deploy no Heroku
 O aplicativo está hospedado no Heroku e pode ser acessado pelo link:
-[Simulador de Financiamento](https://simulador-de-financiamente-fe936a390443.herokuapp.com/)
+https://lab-sergio-816459c5c0a0.herokuapp.com/
 
 ### Atualização do Projeto no Heroku
 1. Faça alterações no código.
